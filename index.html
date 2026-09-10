@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ResQAI — Landslide Risk Intelligence</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+  <!-- ================= SIDEBAR ================= -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-mark">R</div>
+
+      <div>
+        <strong>ResQAI</strong>
+        <span>Risk Intelligence</span>
+      </div>
+    </div>
+
+
+    <nav>
+
+      <a class="active" href="#dashboard">
+        ⌂ <span>Dashboard</span>
+      </a>
+
+      <a href="#risk-map-section">
+        ⌖ <span>Risk Map</span>
+      </a>
+
+      <a href="#prediction">
+        ✦ <span>AI Prediction</span>
+      </a>
+
+      <a href="#field-report">
+        ＋ <span>Field Report</span>
+      </a>
+
+      <a href="#alerts">
+        ◉ <span>Alerts</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="system-ok">
+        <i></i>
+
+        <div>
+          <b>System Online</b>
+          <small>All services operational</small>
+        </div>
+      </div>
+
+      <small class="version">
+        SIH 2026 • NER
+      </small>
+
+    </div>
+
+  </aside>
+
+
+
+  <!-- ================= MAIN ================= -->
+
+  <main class="main">
+
+
+    <!-- ================= TOPBAR ================= -->
+
+    <header class="topbar">
+
+      <div>
+        <p class="eyebrow">
+          DISASTER MANAGEMENT / NORTHEAST INDIA
+        </p>
+
+        <h1>
+          Command Center
+        </h1>
+      </div>
+
+
+      <div class="top-actions">
+
+        <span class="live-dot"></span>
+
+        <span>
+          Live monitoring
+        </span>
+
+        <button id="refresh-btn">
+          ↻ Refresh
+        </button>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- ================= HERO ================= -->
+
+    <section id="dashboard" class="hero">
+
+      <div>
+
+        <div class="hero-label">
+          AI-POWERED EARLY WARNING
+        </div>
+
+        <h2>
+          Landslide Risk<br>
+          <em>Intelligence Platform</em>
+        </h2>
+
+        <p>
+          Monitor environmental signals, identify high-risk zones,
+          and support faster emergency decisions across the Northeast.
+        </p>
+
+      </div>
+
+
+      <div class="hero-status">
+
+        <span>●</span>
+        Data pipeline active
+
+        <br>
+
+        <small>
+          Last update:
+          <b id="last-update">just now</b>
+        </small>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= STATS ================= -->
+
+    <section class="stats-grid">
+
+      <article class="stat-card danger">
+
+        <span class="stat-icon">⚠</span>
+
+        <small>
+          OVERALL RISK
+        </small>
+
+        <strong id="overall-risk">
+          HIGH
+        </strong>
+
+        <p id="risk-summary">
+          Immediate monitoring required
+        </p>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <span class="stat-icon">⌖</span>
+
+        <small>
+          HIGH-RISK ZONES
+        </small>
+
+        <strong id="risk-zones">
+          12
+        </strong>
+
+        <p>
+          Across monitored districts
+        </p>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <span class="stat-icon">◉</span>
+
+        <small>
+          ACTIVE ALERTS
+        </small>
+
+        <strong id="active-alerts">
+          04
+        </strong>
+
+        <p>
+          Requiring attention
+        </p>
+
+      </article>
+
+
+      <article class="stat-card">
+
+        <span class="stat-icon">☁</span>
+
+        <small>
+          WEATHER STATUS
+        </small>
+
+        <strong id="weather-status">
+          RAIN
+        </strong>
+
+        <p id="weather-description">
+          Heavy rainfall detected
+        </p>
+
+      </article>
+
+    </section>
+
+
+
+    <!-- ================= RISK MAP ================= -->
+
+    <section
+      id="risk-map-section"
+      class="section-grid"
+    >
+
+      <div class="panel map-panel">
+
+        <div class="panel-head">
+
+          <div>
+
+            <span class="section-kicker">
+              GEOSPATIAL MONITORING
+            </span>
+
+            <h3>
+              Northeast India Risk Map
+            </h3>
+
+          </div>
+
+
+          <div class="legend">
+
+            <span>
+              <i class="high-dot"></i>
+              High
+            </span>
+
+            <span>
+              <i class="mid-dot"></i>
+              Moderate
+            </span>
+
+            <span>
+              <i class="low-dot"></i>
+              Low
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div id="risk-map"></div>
+
+      </div>
+
+
+
+      <!-- ================= RECENT ALERTS ================= -->
+
+      <div class="panel">
+
+        <div class="panel-head">
+
+          <div>
+
+            <span class="section-kicker">
+              PRIORITY QUEUE
+            </span>
+
+            <h3>
+              Recent Alerts
+            </h3>
+
+          </div>
+
+          <span class="badge">
+            LIVE
+          </span>
+
+        </div>
+
+
+        <div id="alerts-list" class="alert-list">
+
+          <div class="alert-item">
+
+            <span class="alert-dot high"></span>
+
+            <div>
+              <b>Heavy rainfall detected</b>
+              <small>Meghalaya • 12 min ago</small>
+            </div>
+
+            <strong>
+              HIGH
+            </strong>
+
+          </div>
+
+
+          <div class="alert-item">
+
+            <span class="alert-dot medium"></span>
+
+            <div>
+              <b>Slope movement reported</b>
+              <small>Assam • 28 min ago</small>
+            </div>
+
+            <strong>
+              MED
+            </strong>
+
+          </div>
+
+
+          <div class="alert-item">
+
+            <span class="alert-dot high"></span>
+
+            <div>
+              <b>Road connectivity risk</b>
+              <small>Arunachal Pradesh • 41 min ago</small>
+            </div>
+
+            <strong>
+              HIGH
+            </strong>
+
+          </div>
+
+
+          <div class="alert-item">
+
+            <span class="alert-dot low"></span>
+
+            <div>
+              <b>Rainfall below threshold</b>
+              <small>Sikkim • 1 hr ago</small>
+            </div>
+
+            <strong>
+              LOW
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= AI PREDICTION ================= -->
+
+    <section
+      class="panel prediction"
+      id="prediction"
+    >
+
+      <div class="prediction-copy">
+
+        <span class="section-kicker">
+          AI RISK ENGINE
+        </span>
+
+        <h3>
+          Analyze Landslide Risk
+        </h3>
+
+        <p>
+          Upload a field image and enter environmental parameters.
+          The backend risk engine will return a severity assessment
+          and contributing factors.
+        </p>
+
+
+        <!-- IMAGE UPLOAD -->
+
+        <div class="upload-row">
+
+          <input
+            id="risk-image"
+            type="file"
+            accept="image/*"
+            hidden
+          >
+
+          <button
+            id="choose-image-btn"
+            class="secondary-btn"
+          >
+            ＋ Choose field image
+          </button>
+
+          <span id="file-name">
+            No image selected
+          </span>
+
+        </div>
+
+
+
+        <!-- ENVIRONMENTAL INPUTS -->
+
+        <div class="input-grid">
+
+          <label>
+            Rainfall
+            <span>mm</span>
+
+            <input
+              id="rainfall-input"
+              type="number"
+              value="120"
+              min="0"
+            >
+          </label>
+
+
+          <label>
+            Soil Moisture
+            <span>%</span>
+
+            <input
+              id="moisture-input"
+              type="number"
+              value="80"
+              min="0"
+              max="100"
+            >
+          </label>
+
+
+          <label>
+            Slope
+            <span>°</span>
+
+            <input
+              id="slope-input"
+              type="number"
+              value="35"
+              min="0"
+              max="90"
+            >
+          </label>
+
+        </div>
+
+
+
+        <!-- PREDICT BUTTON -->
+
+        <button
+          id="predict-btn"
+          class="primary-btn"
+          disabled
+        >
+          ✦ Predict Risk
+        </button>
+
+      </div>
+
+
+
+      <!-- ================= PREDICTION RESULT ================= -->
+
+      <div
+        class="prediction-result"
+        id="prediction-result"
+      >
+
+        <span class="result-kicker">
+          PREDICTION RESULT
+        </span>
+
+
+        <!-- STATUS WILL REMAIN HERE -->
+
+        <div id="prediction-status">
+          Upload an image to begin analysis.
+        </div>
+
+
+        <!-- ACTUAL RESULT WILL BE INSERTED HERE -->
+
+        <div id="prediction-details"></div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= LOWER SECTION ================= -->
+
+    <section class="section-grid lower">
+
+
+      <!-- ================= FIELD REPORT ================= -->
+
+      <div
+        class="panel"
+        id="field-report"
+      >
+
+        <div class="panel-head">
+
+          <div>
+
+            <span class="section-kicker">
+              FIELD OPERATIONS
+            </span>
+
+            <h3>
+              Submit Field Report
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <div class="report-grid">
+
+          <label>
+
+            Issue type
+
+            <select id="issue-type">
+
+              <option>
+                Ground crack
+              </option>
+
+              <option>
+                Slope movement
+              </option>
+
+              <option>
+                Blocked road
+              </option>
+
+              <option>
+                Other hazard
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <label>
+
+            Description
+
+            <textarea
+              id="report-description"
+              rows="3"
+              placeholder="Describe what was observed..."
+            ></textarea>
+
+          </label>
+
+        </div>
+
+
+        <div class="report-actions">
+
+          <button
+            id="location-btn"
+            class="secondary-btn"
+          >
+            ⌖ Capture GPS
+          </button>
+
+          <span id="location-status">
+            Location not captured
+          </span>
+
+          <button
+            id="submit-report-btn"
+            class="primary-btn"
+          >
+            Submit Report
+          </button>
+
+        </div>
+
+
+        <input
+          id="report-image"
+          type="file"
+          accept="image/*"
+          hidden
+        >
+
+      </div>
+
+
+
+      <!-- ================= RESPONSE CAPACITY ================= -->
+
+      <div
+        class="panel"
+        id="alerts"
+      >
+
+        <div class="panel-head">
+
+          <div>
+
+            <span class="section-kicker">
+              RESOURCE READINESS
+            </span>
+
+            <h3>
+              Response Capacity
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <div class="resources">
+
+          <div>
+
+            <span>
+              Ambulance
+            </span>
+
+            <b>
+              08 / 10
+            </b>
+
+            <i>
+              <u style="width:80%"></u>
+            </i>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Rescue teams
+            </span>
+
+            <b>
+              14 / 18
+            </b>
+
+            <i>
+              <u style="width:78%"></u>
+            </i>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Relief camps
+            </span>
+
+            <b>
+              22 / 24
+            </b>
+
+            <i>
+              <u style="width:92%"></u>
+            </i>
+
+          </div>
+
+
+          <div>
+
+            <span>
+              Boats
+            </span>
+
+            <b>
+              06 / 08
+            </b>
+
+            <i>
+              <u style="width:75%"></u>
+            </i>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+      <span>
+        ResQAI • AI-Based Early Warning & Landslide Risk Monitoring System
+      </span>
+
+      <span>
+        Built for Smart India Hackathon 2026
+      </span>
+
+    </footer>
+
+  </main>
+
+
+
+  <!-- ================= SCRIPTS ================= -->
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
