@@ -209,6 +209,26 @@ function initMap() {
 
     }
 
+    if (typeof L === "undefined") {
+
+        mapElement.innerHTML =
+            "<div style='padding:22px;color:#cfe0eb;background:#0d1d29;height:100%;'>" +
+            "<strong style='display:block;margin-bottom:12px;'>Risk zones overview</strong>" +
+            "<p style='color:#8fa6b5;margin:0 0 14px;'>Interactive map unavailable. Live prediction remains available.</p>" +
+            "<div style='display:grid;gap:8px;font-size:12px;'>" +
+            "<span style='color:#ff7077;'>HIGH - Meghalaya</span>" +
+            "<span style='color:#ff7077;'>HIGH - Arunachal Pradesh</span>" +
+            "<span style='color:#f1a64d;'>MODERATE - Assam</span>" +
+            "<span style='color:#f1a64d;'>MODERATE - Nagaland</span>" +
+            "<span style='color:#28c59b;'>LOW - Sikkim</span>" +
+            "</div></div>";
+
+        console.warn("Leaflet did not load; continuing without the map.");
+
+        return;
+
+    }
+
 
     map = L.map("risk-map").setView(
         [25.8, 93.9],

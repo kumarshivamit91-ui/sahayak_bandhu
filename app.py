@@ -40,10 +40,13 @@ app.add_middleware(
 
 
 # =========================================================
-# UPLOAD DIRECTORY
+# PROJECT PATHS
 # =========================================================
 
-UPLOAD_DIR = "uploads"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+INDEX_FILE = os.path.join(BASE_DIR, "index.html")
+IMAGE_MODEL_PATH = os.path.join(BASE_DIR, "image_model.joblib")
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
@@ -141,7 +144,6 @@ model = RandomForestClassifier(
 
 model.fit(X_train, y_train)
 
-IMAGE_MODEL_PATH = "image_model.joblib"
 image_model_bundle = None
 
 if os.path.exists(IMAGE_MODEL_PATH):
@@ -161,7 +163,7 @@ RISK_NAMES = {
 
 @app.get("/")
 def home():
-    return FileResponse("index.html")
+    return FileResponse(INDEX_FILE)
 
 
 # =========================================================
